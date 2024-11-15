@@ -1,7 +1,12 @@
+import { UserDepartment } from './../models/user_department.entity';
 import UserServices from "../services/user.services";
 import BaseController from "./base.controller";
 import bcrypt from "bcrypt";
+import { User } from '../models/user.entity';
+import dataSource from '../database/data-source';
+import { Like } from "typeorm";
 
+let userRepo = dataSource.getRepository(User)
 
 class UserController extends BaseController{
 
@@ -26,7 +31,7 @@ class UserController extends BaseController{
             let passwordHash = req.body.passwordHash
             let password = await bcrypt.hash(passwordHash, 10);
             const user = await UserServices.addUser(id, username, email, password, code , fullName, gender, dateOfBirth, placeOfBirth, address , idNumber , idIssueDate ,
-                idIssuePlace, phoneNumber , department, position , role )            
+                idIssuePlace, phoneNumber , department, position , role)            
             res.status(200).json(user);
         }
         catch(e){
@@ -79,6 +84,43 @@ class UserController extends BaseController{
             }
         
         }
+    async searchDepartment (req, res ) {
+        try {
+            if (req.query.keyword) {
+              const users = await userRepo.find({
+                where: [
+                  { department: Like(`%${req.query.keyword}%`) },
+                ],
+              });
+              res.status(200).json({
+                success: true,
+                users,
+              });
+            }
+          } catch (e) {
+            res.status(404).json({ message: e.message });          }
+
+    }
+
+    async searchNameOrId (req, res) {
+        try {
+            if (req.query.keyword) {
+              const users = await userRepo.find({
+                where: [
+                  { fullName: Like(`%${req.query.keyword}%`) },
+                  { code : Like(`%${req.query.keyword}%`) },
+                ],
+              });
+              res.status(200).json({
+                success: true,
+                users,
+              });
+            }
+          } catch (e) {
+            res.status(404).json({ message: e.message });          }
+
+    }
+
     async deleteUser (req, res) {
         try{
             let userId = req.body.id

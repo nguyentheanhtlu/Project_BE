@@ -1,6 +1,7 @@
 import BaseServices from "./base.services";
 import dataSource from "../database/data-source";
 import { User } from "../models/user.entity";
+import { Like } from "typeorm";
 
 let userRepo = dataSource.getRepository(User)
 
@@ -51,6 +52,15 @@ class UserServices {
     static async getUserByUserName(username: string) {
         return await userRepo.findOneBy({username: username});
     }
+
+    static async getUserByDepartMent(department : string) {
+        return await userRepo.find({
+            where : {
+                department : Like(`%${department}`)
+            }
+        });
+    }
+
     static async getUserDetails (id : any) {
         let user = await userRepo.findOneBy({ id: id})
         return user;

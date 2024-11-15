@@ -15,6 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_services_1 = __importDefault(require("../services/user.services"));
 const base_controller_1 = __importDefault(require("./base.controller"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const user_entity_1 = require("../models/user.entity");
+const data_source_1 = __importDefault(require("../database/data-source"));
+const typeorm_1 = require("typeorm");
+let userRepo = data_source_1.default.getRepository(user_entity_1.User);
 class UserController extends base_controller_1.default {
     createUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -87,6 +91,47 @@ class UserController extends base_controller_1.default {
             try {
                 const user = yield user_services_1.default.getListUser();
                 res.status(200).json(user);
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    searchDepartment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (req.query.keyword) {
+                    const users = yield userRepo.find({
+                        where: [
+                            { department: (0, typeorm_1.Like)(`%${req.query.keyword}%`) },
+                        ],
+                    });
+                    res.status(200).json({
+                        success: true,
+                        users,
+                    });
+                }
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    searchNameOrId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (req.query.keyword) {
+                    const users = yield userRepo.find({
+                        where: [
+                            { fullName: (0, typeorm_1.Like)(`%${req.query.keyword}%`) },
+                            { code: (0, typeorm_1.Like)(`%${req.query.keyword}%`) },
+                        ],
+                    });
+                    res.status(200).json({
+                        success: true,
+                        users,
+                    });
+                }
             }
             catch (e) {
                 res.status(404).json({ message: e.message });

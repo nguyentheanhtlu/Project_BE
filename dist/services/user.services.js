@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = __importDefault(require("../database/data-source"));
 const user_entity_1 = require("../models/user.entity");
+const typeorm_1 = require("typeorm");
 let userRepo = data_source_1.default.getRepository(user_entity_1.User);
 class UserServices {
     static addUser(id, username, email, password, code, fullName, gender, dateOfBirth, placeOfBirth, address, idNumber, idIssueDate, idIssuePlace, phoneNumber, department, position, role) {
@@ -62,6 +63,15 @@ class UserServices {
     static getUserByUserName(username) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield userRepo.findOneBy({ username: username });
+        });
+    }
+    static getUserByDepartMent(department) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield userRepo.find({
+                where: {
+                    department: (0, typeorm_1.Like)(`%${department}`)
+                }
+            });
         });
     }
     static getUserDetails(id) {

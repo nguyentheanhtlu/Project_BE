@@ -7,6 +7,8 @@ import dataSource from "./database/data-source";
 import AppConfig from "./config/app.config";
 import AuthRouter from "./routers/auth.router";
 import UserRouter from "./routers/user.router";
+import ContractRouter from "./routers/contract.router";
+import AuthMiddleware from "./middlewares/auth.middlewares";
 class App {
   private app: express.Application = express();
 
@@ -63,12 +65,12 @@ class App {
     // //
 
     this.app.use("/api/auth", AuthRouter);
-    // this.app.use(AuthMiddleware.checkAuthentication);
+    this.app.use(AuthMiddleware.checkAuthentication);
     // this.app.use("/api/wallet", WalletRouter);
     // this.app.use("/api/transaction-subcategory", TransSubCateRouter);
     // this.app.use("/api/transaction-category", TransCateRouter);
     this.app.use("/api/user", UserRouter);
-    // this.app.use("/api/transaction", TransactionRouter);
+    this.app.use("/api/contract", ContractRouter);
     // this.app.use("/api/type", TransTypeRouter);
     
   }

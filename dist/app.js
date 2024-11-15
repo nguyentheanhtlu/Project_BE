@@ -10,6 +10,8 @@ const cookie_session_1 = __importDefault(require("cookie-session"));
 const app_config_1 = __importDefault(require("./config/app.config"));
 const auth_router_1 = __importDefault(require("./routers/auth.router"));
 const user_router_1 = __importDefault(require("./routers/user.router"));
+const contract_router_1 = __importDefault(require("./routers/contract.router"));
+const auth_middlewares_1 = __importDefault(require("./middlewares/auth.middlewares"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -51,12 +53,12 @@ class App {
         // })
         // //
         this.app.use("/api/auth", auth_router_1.default);
-        // this.app.use(AuthMiddleware.checkAuthentication);
+        this.app.use(auth_middlewares_1.default.checkAuthentication);
         // this.app.use("/api/wallet", WalletRouter);
         // this.app.use("/api/transaction-subcategory", TransSubCateRouter);
         // this.app.use("/api/transaction-category", TransCateRouter);
         this.app.use("/api/user", user_router_1.default);
-        // this.app.use("/api/transaction", TransactionRouter);
+        this.app.use("/api/contract", contract_router_1.default);
         // this.app.use("/api/type", TransTypeRouter);
     }
     listen() {

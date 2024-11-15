@@ -19,25 +19,27 @@ const base_controller_1 = __importDefault(require("../controller/base.controller
 require('dotenv').config();
 let userRepo = data_source_1.default.getRepository(user_entity_1.User);
 class AuthMiddleware {
-    // static checkAuthentication(req, res, next) {
-    //     if (authHeader) {
-    //         const authHeader = req.headers.authorization;
-    //         const token = authHeader.split(" ")[1];
-    //         jwt.verify(token, `${process.env.JWT_SECRET_KEY}`, async (err, decoded) => {
-    //             if (err) {
-    //                 return res.status(403).json("Token is not valid!");
-    //             }
-    //             let user = await userRepo.findOneBy({id: decoded.id});
-    //             if (!user) {
-    //                 return res.status(401).json({message: 'Unauthorized!'});
-    //             }
-    //             req.user = user;
-    //             next();
-    //         });
-    //     } else {
-    //         res.status(401).json("You are not authenticated!");
-    //     }
-    // }
+    static checkAuthentication(req, res, next) {
+        const authHeader = req.headers['authorization'] || req.get('Authorization');
+        if (authHeader) {
+            const authHeader = req.headers.authorization;
+            const token = authHeader.split(" ")[1];
+            jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRET_KEY}`, (err, decoded) => __awaiter(this, void 0, void 0, function* () {
+                if (err) {
+                    return res.status(403).json("Token is not valid!");
+                }
+                let user = yield userRepo.findOneBy({ id: decoded.id });
+                if (!user) {
+                    return res.status(401).json({ message: 'Unauthorized!' });
+                }
+                req.user = user;
+                next();
+            }));
+        }
+        else {
+            res.status(401).json("You are not authenticated!");
+        }
+    }
     static refreshToken(req, res) {
         const refreshToken = req.body.token;
         if (!refreshToken)

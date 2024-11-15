@@ -9,25 +9,26 @@ let userRepo = dataSource.getRepository(User);
 
 class AuthMiddleware {
 
-    // static checkAuthentication(req, res, next) {
-    //     if (authHeader) {
-    //         const authHeader = req.headers.authorization;
-    //         const token = authHeader.split(" ")[1];
-    //         jwt.verify(token, `${process.env.JWT_SECRET_KEY}`, async (err, decoded) => {
-    //             if (err) {
-    //                 return res.status(403).json("Token is not valid!");
-    //             }
-    //             let user = await userRepo.findOneBy({id: decoded.id});
-    //             if (!user) {
-    //                 return res.status(401).json({message: 'Unauthorized!'});
-    //             }
-    //             req.user = user;
-    //             next();
-    //         });
-    //     } else {
-    //         res.status(401).json("You are not authenticated!");
-    //     }
-    // }
+    static checkAuthentication(req, res, next) {
+        const authHeader = req.headers['authorization'] || req.get('Authorization');
+        if (authHeader) {
+            const authHeader = req.headers.authorization;
+            const token = authHeader.split(" ")[1];
+            jwt.verify(token, `${process.env.JWT_SECRET_KEY}`, async (err, decoded) => {
+                if (err) {
+                    return res.status(403).json("Token is not valid!");
+                }
+                let user = await userRepo.findOneBy({id: decoded.id});
+                if (!user) {
+                    return res.status(401).json({message: 'Unauthorized!'});
+                }
+                req.user = user;
+                next();
+            });
+        } else {
+            res.status(401).json("You are not authenticated!");
+        }
+    }
 
     static refreshToken(req, res) {
         const refreshToken = req.body.token;
