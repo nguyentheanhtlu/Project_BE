@@ -25,6 +25,9 @@ const ContractAttachmentRouter: Router = express.Router();
 const contractAttachmentController = new ContractAttachmentController();
 
 ContractAttachmentRouter.post("/add", upload.single("filePath"), contractAttachmentController.addContractAttachment);
+ContractAttachmentRouter.post("/",  contractAttachmentController.listContractAttachment);
+ContractAttachmentRouter.post("/detail",  contractAttachmentController.getDetails);
+ContractAttachmentRouter.post("/update",  contractAttachmentController.updateContractAttachment);
 
 
 export default ContractAttachmentRouter;

@@ -37,9 +37,15 @@ class ContractAttachmentService {
                 relations: ["contract", "uploadedBy"]
             }
         )
-
         return contractAttachment;
+    }
+    static async detailContractAttachment (id)  {
+        const contractAttachment = await contractAttachmentRepo.findOne ({
+            relations: ["contract", "uploadedBy"] ,
+            where : {id : id}
 
+        })
+        return contractAttachment;
 
     }
     

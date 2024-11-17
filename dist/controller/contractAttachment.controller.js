@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = __importDefault(require("../database/data-source"));
+const contractAttachment_services_1 = __importDefault(require("../services/contractAttachment.services"));
 const path = require('path');
 const contract_attachment_entity_1 = require("../models/contract_attachment.entity");
 let contractAttachmentRepo = data_source_1.default.getRepository(contract_attachment_entity_1.ContractAttachment);
@@ -40,8 +41,43 @@ class contractAttachmentController {
             }
         });
     }
-    listContractAttachment() {
+    updateContractAttachment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let id = req.body.id;
+                let filePath = req.file ? `/uploads/${path.basename(req.file.path).substring(0, 255)}` : null;
+                let contract = req.body.contract;
+                let fileName = req.body.fileName;
+                let fileType = req.body.fileType;
+                let uploadedBy = req.body.uploadedBy;
+                let attachmentPurpose = req.body.attachmentPurpose;
+                const contractAttachment = yield contractAttachment_services_1.default.updateContractAttachment(id, contract, fileName, filePath, fileType, uploadedBy, attachmentPurpose);
+                res.status(200).json({
+                    success: true,
+                    contractAttachment
+                });
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    listContractAttachment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractAttachment = yield contractAttachment_services_1.default.listContractAttachment();
+            res.status(200).json(contractAttachment);
+        });
+    }
+    getDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let id = req.body.id;
+                const contracts = yield contractAttachment_services_1.default.detailContractAttachment(id);
+                res.status(200).json(contracts);
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
         });
     }
 }

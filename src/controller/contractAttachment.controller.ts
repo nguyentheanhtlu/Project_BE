@@ -27,8 +27,38 @@ class contractAttachmentController {
             res.status(404).json({ message: e.message });
         }
     }
-    async listContractAttachment() {
+    async updateContractAttachment (req, res) {
+        try {
+           let id = req.body.id
+            let filePath = req.file ? `/uploads/${path.basename(req.file.path).substring(0, 255)}` : null
+             let contract = req.body.contract
+            let fileName =req.body.fileName
+            let fileType = req.body.fileType
+            let uploadedBy = req.body.uploadedBy
+            let attachmentPurpose = req.body.attachmentPurpose
+            const contractAttachment = await ContractAttachmentService.updateContractAttachment(id , contract  , fileName , filePath , fileType , uploadedBy, attachmentPurpose)
+            res.status(200).json({
+                success: true,
+                contractAttachment
+            });
+        } catch (e) {
+            res.status(404).json({ message: e.message });
+        }
 
+    }
+    async listContractAttachment(req, res) {
+        const contractAttachment = await ContractAttachmentService.listContractAttachment()
+        res.status(200).json(contractAttachment);
+    }
+
+    async getDetails (req, res) {
+        try {
+            let id = req.body.id
+            const contracts = await ContractAttachmentService.detailContractAttachment(id);
+            res.status(200).json(contracts);
+        } catch (e) {
+            res.status(404).json({ message: e.message });
+        }
     }
 
 

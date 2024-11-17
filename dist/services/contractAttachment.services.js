@@ -51,6 +51,15 @@ class ContractAttachmentService {
             return contractAttachment;
         });
     }
+    static detailContractAttachment(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractAttachment = yield contractAttachmentRepo.findOne({
+                relations: ["contract", "uploadedBy"],
+                where: { id: id }
+            });
+            return contractAttachment;
+        });
+    }
 }
 exports.default = ContractAttachmentService;
 //# sourceMappingURL=contractAttachment.services.js.map

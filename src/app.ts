@@ -12,6 +12,7 @@ import AuthMiddleware from "./middlewares/auth.middlewares";
 import DepartmentRouter from "./routers/department.router";
 import ContractAttachmentRouter from "./routers/contractAttachment.router";
 import fs from 'fs';
+import UserSignatureRouter from "./routers/userSignature.router";
 
 class App {
   private app: express.Application = express();
@@ -80,7 +81,7 @@ class App {
     this.app.use(AuthMiddleware.checkAuthentication);
     this.app.use("/api/department", DepartmentRouter);
     this.app.use("/api/contract_attachment", ContractAttachmentRouter);
-    // this.app.use("/api/transaction-category", TransCateRouter);
+    this.app.use("/api/user-signature", UserSignatureRouter);
     this.app.use("/api/user", UserRouter);
     this.app.use("/api/contract", ContractRouter);
     // this.app.use("/api/type", TransTypeRouter);
