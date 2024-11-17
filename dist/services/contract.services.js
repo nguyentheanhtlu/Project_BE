@@ -31,6 +31,37 @@ class contractService {
             return contract;
         });
     }
+    static updateContract(id, contractNumber, customer, contractType, createdBy, signersCount, status, note) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let contract = yield contractRepo.findOneBy({ id: id });
+            contract.id = id;
+            contract.contractNumber = contractNumber;
+            contract.customer = customer;
+            contract.contractType = contractType;
+            contract.createdBy = createdBy;
+            contract.signersCount = signersCount;
+            contract.status = status;
+            contract.note = note;
+            yield contractRepo.save(contract);
+        });
+    }
+    static allContracts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let contract = yield contractRepo.find({
+                relations: ["customer", "createdBy"]
+            });
+            return contract;
+        });
+    }
+    static getDetail(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let contract = yield contractRepo.findOne({
+                relations: ["customer", "createdBy"],
+                where: { id: id }
+            });
+            return contract;
+        });
+    }
 }
 exports.default = contractService;
 //# sourceMappingURL=contract.services.js.map

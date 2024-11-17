@@ -15,6 +15,7 @@ const contract_entity_1 = require("./contract.entity");
 const user_entity_1 = require("./user.entity");
 let ApprovalFlow = class ApprovalFlow {
 };
+exports.ApprovalFlow = ApprovalFlow;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -51,8 +52,7 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], ApprovalFlow.prototype, "comments", void 0);
-ApprovalFlow = __decorate([
+exports.ApprovalFlow = ApprovalFlow = __decorate([
     (0, typeorm_1.Entity)()
 ], ApprovalFlow);
-exports.ApprovalFlow = ApprovalFlow;
 //# sourceMappingURL=log.entity.js.map

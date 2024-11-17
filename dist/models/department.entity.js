@@ -13,6 +13,7 @@ exports.Department = void 0;
 const typeorm_1 = require("typeorm");
 let Department = class Department {
 };
+exports.Department = Department;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -33,8 +34,7 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], Department.prototype, "updatedAt", void 0);
-Department = __decorate([
+exports.Department = Department = __decorate([
     (0, typeorm_1.Entity)()
 ], Department);
-exports.Department = Department;
 //# sourceMappingURL=department.entity.js.map

@@ -2,13 +2,14 @@ import BaseServices from "./base.services";
 import dataSource from "../database/data-source";
 import { User } from "../models/user.entity";
 import { Like } from "typeorm";
+import { Department } from "../models/department.entity";
 
 let userRepo = dataSource.getRepository(User)
 
 class UserServices {
 
     static async addUser(id, username, email, password, code , fullName, gender, dateOfBirth, placeOfBirth, address , idNumber , idIssueDate ,
-        idIssuePlace, phoneNumber , department, position , role) {
+        idIssuePlace, phoneNumber , department : Department, position , role) {
             const newUser = new User
             newUser.id = id
             newUser.code = code
@@ -32,7 +33,7 @@ class UserServices {
     }
 
     static async updateUser(userId: number, code , fullName, gender, dateOfBirth, placeOfBirth, address , idNumber , idIssueDate ,
-        idIssuePlace, phoneNumber , department, position , role): Promise<void> {
+        idIssuePlace, phoneNumber , department : Department, position , role): Promise<void> {
         const user = await userRepo.findOneBy({ id: userId })
         user.code = code
         user.fullName = fullName
@@ -62,12 +63,19 @@ class UserServices {
     }
 
     static async getUserDetails (id : any) {
-        let user = await userRepo.findOneBy({ id: id})
+        let user = await userRepo.findOne( {
+            relations: ["department"],
+            where: {id : id}
+        })
         return user;
     }
 
     static async getListUser ()  {
-        let listUser = await userRepo.find()
+        let listUser = await userRepo.find(
+            {
+                relations: ["department"]
+            }
+        )
         return listUser;
     }
     static async deleteUser (id : any) {

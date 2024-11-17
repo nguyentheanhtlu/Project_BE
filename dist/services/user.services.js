@@ -76,13 +76,18 @@ class UserServices {
     }
     static getUserDetails(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let user = yield userRepo.findOneBy({ id: id });
+            let user = yield userRepo.findOne({
+                relations: ["department"],
+                where: { id: id }
+            });
             return user;
         });
     }
     static getListUser() {
         return __awaiter(this, void 0, void 0, function* () {
-            let listUser = yield userRepo.find();
+            let listUser = yield userRepo.find({
+                relations: ["department"]
+            });
             return listUser;
         });
     }

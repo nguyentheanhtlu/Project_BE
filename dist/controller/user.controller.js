@@ -97,26 +97,22 @@ class UserController extends base_controller_1.default {
             }
         });
     }
-    searchDepartment(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.query.keyword) {
-                    const users = yield userRepo.find({
-                        where: [
-                            { department: (0, typeorm_1.Like)(`%${req.query.keyword}%`) },
-                        ],
-                    });
-                    res.status(200).json({
-                        success: true,
-                        users,
-                    });
-                }
-            }
-            catch (e) {
-                res.status(404).json({ message: e.message });
-            }
-        });
-    }
+    // async searchDepartment (req, res ) {
+    //     try {
+    //         if (req.query.keyword) {
+    //           const users = await userRepo.find({
+    //             where: [
+    //               { department: Like(`%${req.query.keyword}%`) },
+    //             ],
+    //           });
+    //           res.status(200).json({
+    //             success: true,
+    //             users,
+    //           });
+    //         }
+    //       } catch (e) {
+    //         res.status(404).json({ message: e.message });          }
+    // }
     searchNameOrId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

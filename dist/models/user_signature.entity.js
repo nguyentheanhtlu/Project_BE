@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./user.entity");
 let UserSignature = class UserSignature {
 };
+exports.UserSignature = UserSignature;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -34,8 +35,7 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], UserSignature.prototype, "updatedAt", void 0);
-UserSignature = __decorate([
+exports.UserSignature = UserSignature = __decorate([
     (0, typeorm_1.Entity)()
 ], UserSignature);
-exports.UserSignature = UserSignature;
 //# sourceMappingURL=user_signature.entity.js.map

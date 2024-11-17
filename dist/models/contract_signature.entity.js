@@ -15,6 +15,7 @@ const contract_entity_1 = require("./contract.entity");
 const user_entity_1 = require("./user.entity");
 let ContractSignature = class ContractSignature {
 };
+exports.ContractSignature = ContractSignature;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -51,8 +52,7 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
 ], ContractSignature.prototype, "positionY", void 0);
-ContractSignature = __decorate([
+exports.ContractSignature = ContractSignature = __decorate([
     (0, typeorm_1.Entity)()
 ], ContractSignature);
-exports.ContractSignature = ContractSignature;
 //# sourceMappingURL=contract_signature.entity.js.map

@@ -1,4 +1,3 @@
-import { UserDepartment } from './../models/user_department.entity';
 import UserServices from "../services/user.services";
 import BaseController from "./base.controller";
 import bcrypt from "bcrypt";
@@ -84,23 +83,23 @@ class UserController extends BaseController{
             }
         
         }
-    async searchDepartment (req, res ) {
-        try {
-            if (req.query.keyword) {
-              const users = await userRepo.find({
-                where: [
-                  { department: Like(`%${req.query.keyword}%`) },
-                ],
-              });
-              res.status(200).json({
-                success: true,
-                users,
-              });
-            }
-          } catch (e) {
-            res.status(404).json({ message: e.message });          }
+    // async searchDepartment (req, res ) {
+    //     try {
+    //         if (req.query.keyword) {
+    //           const users = await userRepo.find({
+    //             where: [
+    //               { department: Like(`%${req.query.keyword}%`) },
+    //             ],
+    //           });
+    //           res.status(200).json({
+    //             success: true,
+    //             users,
+    //           });
+    //         }
+    //       } catch (e) {
+    //         res.status(404).json({ message: e.message });          }
 
-    }
+    // }
 
     async searchNameOrId (req, res) {
         try {

@@ -2,13 +2,17 @@ import express from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import cookieSession from "cookie-session";
-
+import path from 'path';
 import dataSource from "./database/data-source";
 import AppConfig from "./config/app.config";
 import AuthRouter from "./routers/auth.router";
 import UserRouter from "./routers/user.router";
 import ContractRouter from "./routers/contract.router";
 import AuthMiddleware from "./middlewares/auth.middlewares";
+import DepartmentRouter from "./routers/department.router";
+import ContractAttachmentRouter from "./routers/contractAttachment.router";
+import fs from 'fs';
+
 class App {
   private app: express.Application = express();
 
@@ -28,13 +32,12 @@ class App {
   /* private serveStaticFiles(): void {
         this.app.use(express.static(path.join(__dirname, 'FileName'), { maxAge:  this.appConfig.expiredStaticFiles}));
     } */
-
   private setupMiddlewares(): void {
-    this.app.use(
-      fileUpload({
-        createParentPath: true,
-      })
-    );
+    // this.app.use(
+    //   fileUpload({
+    //     createParentPath: true,
+    //   })
+    // );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(
@@ -51,6 +54,15 @@ class App {
         methods: ["POST", "PUT", "PATCH", "GET", "OPTIONS", "HEAD", "DELETE"],
       })
     );
+    
+    const uploadsDir = path.join(__dirname, '../uploads');
+    if (!fs.existsSync(uploadsDir)){
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    
+    // Serve static files from the 'uploads' directory
+    this.app.use('/uploads', express.static(uploadsDir));
+    
 
     // Test
 
@@ -66,8 +78,8 @@ class App {
 
     this.app.use("/api/auth", AuthRouter);
     this.app.use(AuthMiddleware.checkAuthentication);
-    // this.app.use("/api/wallet", WalletRouter);
-    // this.app.use("/api/transaction-subcategory", TransSubCateRouter);
+    this.app.use("/api/department", DepartmentRouter);
+    this.app.use("/api/contract_attachment", ContractAttachmentRouter);
     // this.app.use("/api/transaction-category", TransCateRouter);
     this.app.use("/api/user", UserRouter);
     this.app.use("/api/contract", ContractRouter);

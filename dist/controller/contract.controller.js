@@ -20,10 +20,9 @@ class contractController {
     createContract(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const customerUser = yield userRepo.findOneBy({ id: req.body.customer });
                 let id = req.body.id;
                 let contractNumber = req.body.contractNumber;
-                let customer = customerUser;
+                let customer = req.body.customer;
                 let contractType = req.body.contractType;
                 let createdBy = req.user.id;
                 let signersCount = req.body.signersCount;
@@ -31,6 +30,48 @@ class contractController {
                 let note = req.body.note;
                 let contract = yield contract_services_1.default.addContract(id, contractNumber, customer, contractType, createdBy, signersCount, status, note);
                 res.status(200).json(contract);
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    updateContract(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let id = req.body.id;
+                let contractNumber = req.body.contractNumber;
+                let customer = req.body.customer;
+                let contractType = req.body.contractType;
+                let createdBy = req.user.id;
+                let signersCount = req.body.signersCount;
+                let status = req.body.status;
+                let note = req.body.note;
+                let contract = yield contract_services_1.default.updateContract(id, contractNumber, customer, contractType, createdBy, signersCount, status, note);
+                res.status(200).json(contract);
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    allContract(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const contracts = yield contract_services_1.default.allContracts();
+                res.status(200).json(contracts);
+            }
+            catch (e) {
+                res.status(404).json({ message: e.message });
+            }
+        });
+    }
+    getDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let idContract = req.body.id;
+                const contracts = yield contract_services_1.default.getDetail(idContract);
+                res.status(200).json(contracts);
             }
             catch (e) {
                 res.status(404).json({ message: e.message });

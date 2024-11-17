@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./user.entity");
 let Contract = class Contract {
 };
+exports.Contract = Contract;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -54,8 +55,7 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], Contract.prototype, "note", void 0);
-Contract = __decorate([
+exports.Contract = Contract = __decorate([
     (0, typeorm_1.Entity)()
 ], Contract);
-exports.Contract = Contract;
 //# sourceMappingURL=contract.entity.js.map

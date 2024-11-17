@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const department_entity_1 = require("./department.entity");
 let User = class User {
 };
+exports.User = User;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -46,6 +48,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "idNumber", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => department_entity_1.Department, { nullable: true }),
+    __metadata("design:type", department_entity_1.Department)
+], User.prototype, "department", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'date', nullable: true }),
     __metadata("design:type", Date)
 ], User.prototype, "idIssueDate", void 0);
@@ -61,10 +67,6 @@ __decorate([
     (0, typeorm_1.Column)({ length: 255, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ length: 100, nullable: true }),
-    __metadata("design:type", String)
-], User.prototype, "department", void 0);
 __decorate([
     (0, typeorm_1.Column)({ length: 100, nullable: true }),
     __metadata("design:type", String)
@@ -101,8 +103,7 @@ __decorate([
     (0, typeorm_1.Column)({ name: "active", type: "boolean", nullable: false, default: false }),
     __metadata("design:type", Boolean)
 ], User.prototype, "active", void 0);
-User = __decorate([
+exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);
-exports.User = User;
 //# sourceMappingURL=user.entity.js.map

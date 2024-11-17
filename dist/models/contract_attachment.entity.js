@@ -15,6 +15,7 @@ const contract_entity_1 = require("./contract.entity");
 const user_entity_1 = require("./user.entity");
 let ContractAttachment = class ContractAttachment {
 };
+exports.ContractAttachment = ContractAttachment;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -47,8 +48,7 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: ['contract_display', 'note'] }),
     __metadata("design:type", String)
 ], ContractAttachment.prototype, "attachmentPurpose", void 0);
-ContractAttachment = __decorate([
+exports.ContractAttachment = ContractAttachment = __decorate([
     (0, typeorm_1.Entity)()
 ], ContractAttachment);
-exports.ContractAttachment = ContractAttachment;
 //# sourceMappingURL=contract_attachment.entity.js.map

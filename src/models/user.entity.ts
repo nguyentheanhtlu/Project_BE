@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Department } from './department.entity';
 
 @Entity()
 export class User {
@@ -25,6 +26,9 @@ export class User {
 
   @Column({ length: 20, unique: true })
   idNumber: string;
+  
+  @ManyToOne(() => Department, { nullable: true })
+  department: Department;
 
   @Column({ type: 'date', nullable: true })
   idIssueDate: Date;
@@ -37,9 +41,6 @@ export class User {
 
   @Column({ length: 255, unique: true })
   email: string;
-
-  @Column({ length: 100, nullable: true })
-  department: string;
 
   @Column({ length: 100, nullable: true })
   position: string;
@@ -67,4 +68,5 @@ export class User {
   
   @Column({name: "active", type: "boolean", nullable: false, default: false})
   active: boolean
+
 }

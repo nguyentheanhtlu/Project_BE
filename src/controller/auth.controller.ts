@@ -12,7 +12,7 @@ class AuthController extends BaseController {
 
     static async register(req, res, next): Promise<User> {
         try {
-            const {  username , passwordHash , email, code, fullName, idNumber } = req.body;
+            const {  username , passwordHash , email, code, fullName, idNumber  } = req.body;
             const user = await userRepo.findOne({
               where: [{ email }, { username }],
             });
