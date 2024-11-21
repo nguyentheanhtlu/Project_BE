@@ -8,6 +8,14 @@ const contractController = new ContractController();
 ContractRouter.post("/addContract", contractController.createContract);
 ContractRouter.post("/", contractController.allContract);
 ContractRouter.post("/detail", contractController.getDetails);
+ContractRouter.post("/update", contractController.updateContract);
+ContractRouter.post("/success", contractController.successContract);
+ContractRouter.post("/bulk-delete", contractController.deleteMultipleContracts);
+ContractRouter.post("/rejected-contract", contractController.rejectMultipleContracts);
+
+
+
+
 
 
 export default ContractRouter;

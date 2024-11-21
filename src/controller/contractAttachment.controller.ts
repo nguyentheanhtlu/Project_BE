@@ -31,7 +31,7 @@ class contractAttachmentController {
         try {
            let id = req.body.id
             let filePath = req.file ? `/uploads/${path.basename(req.file.path).substring(0, 255)}` : null
-             let contract = req.body.contract
+            let contract = req.body.contract
             let fileName =req.body.fileName
             let fileType = req.body.fileType
             let uploadedBy = req.body.uploadedBy

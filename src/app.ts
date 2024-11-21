@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import fileUpload from "express-fileupload";
 import cookieSession from "cookie-session";
 import path from 'path';
 import dataSource from "./database/data-source";
@@ -13,6 +12,8 @@ import DepartmentRouter from "./routers/department.router";
 import ContractAttachmentRouter from "./routers/contractAttachment.router";
 import fs from 'fs';
 import UserSignatureRouter from "./routers/userSignature.router";
+import ContractSignatureRouter from "./routers/contractSignature.router";
+import ApprovalFlowRouter from "./routers/approvalFlow.router";
 
 class App {
   private app: express.Application = express();
@@ -81,10 +82,11 @@ class App {
     this.app.use(AuthMiddleware.checkAuthentication);
     this.app.use("/api/department", DepartmentRouter);
     this.app.use("/api/contract_attachment", ContractAttachmentRouter);
-    this.app.use("/api/user-signature", UserSignatureRouter);
+    this.app.use("/api/user_signature", UserSignatureRouter);
     this.app.use("/api/user", UserRouter);
     this.app.use("/api/contract", ContractRouter);
-    // this.app.use("/api/type", TransTypeRouter);
+    this.app.use("/api/contract_signature", ContractSignatureRouter);
+    this.app.use("api/approval_flow" , ApprovalFlowRouter)
     
   }
 

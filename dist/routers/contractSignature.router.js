@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
-const contractAttachment_controller_1 = __importDefault(require("../controller/contractAttachment.controller"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const uploadDir = path_1.default.join(__dirname, '../../uploads');
@@ -22,11 +21,11 @@ const storage = multer_1.default.diskStorage({
     }
 });
 const upload = (0, multer_1.default)({ storage: storage });
-const ContractAttachmentRouter = express_1.default.Router();
-const contractAttachmentController = new contractAttachment_controller_1.default();
-ContractAttachmentRouter.post("/add", upload.single("filePath"), contractAttachmentController.addContractAttachment);
-ContractAttachmentRouter.post("/", contractAttachmentController.listContractAttachment);
-ContractAttachmentRouter.post("/detail", contractAttachmentController.getDetails);
-ContractAttachmentRouter.post("/update", contractAttachmentController.updateContractAttachment);
-exports.default = ContractAttachmentRouter;
-//# sourceMappingURL=contractAttachment.router.js.map
+const UserSignatureRouter = express_1.default.Router();
+const UserSignatureController = new tController();
+UserSignatureRouter.post("/add", upload.single("filePath"), tController.addt);
+UserSignatureRouter.post("/", tController.listt);
+UserSignatureRouter.post("/detail", tController.getDetails);
+UserSignatureRouter.post("/update", tController.updatet);
+exports.default = UserSignatureRouter;
+//# sourceMappingURL=contractSignature.router.js.map

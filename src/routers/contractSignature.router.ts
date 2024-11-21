@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import userSignatureController from '../controller/userSignature.controller';
+import contractSignatureController from '../controller/contractSignature.controller';
 
 const uploadDir = path.join(__dirname, '../../uploads');
 
@@ -21,11 +21,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const UserSignatureRouter: Router = express.Router();
-const Controller = new userSignatureController();
+const ContractSignatureRouter: Router = express.Router();
+const UserSignatureController = new contractSignatureController();
 
-UserSignatureRouter.post("/add", upload.single("signatureImagePath"), Controller.addUserSignature);
-UserSignatureRouter.post("/",  Controller.list);
-UserSignatureRouter.post("/detail",  Controller.detail);
+ContractSignatureRouter.post("/add", upload.single("filePath"), UserSignatureController.addContractSignature);
+ContractSignatureRouter.post("/",  UserSignatureController.listContractSignature);
+ContractSignatureRouter.post("/detail",  UserSignatureController.getDetail);
+ContractSignatureRouter.post("/update",  UserSignatureController.updateContractSignature);
 
-export default UserSignatureRouter;
+
+export default ContractSignatureRouter;
