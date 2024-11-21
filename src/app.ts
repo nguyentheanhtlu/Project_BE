@@ -86,7 +86,7 @@ class App {
     this.app.use("/api/user", UserRouter);
     this.app.use("/api/contract", ContractRouter);
     this.app.use("/api/contract_signature", ContractSignatureRouter);
-    this.app.use("api/approval_flow" , ApprovalFlowRouter)
+    this.app.use("/api/approval_flow" , ApprovalFlowRouter)
     
   }
 

@@ -16,6 +16,8 @@ const department_router_1 = __importDefault(require("./routers/department.router
 const contractAttachment_router_1 = __importDefault(require("./routers/contractAttachment.router"));
 const fs_1 = __importDefault(require("fs"));
 const userSignature_router_1 = __importDefault(require("./routers/userSignature.router"));
+const contractSignature_router_1 = __importDefault(require("./routers/contractSignature.router"));
+const approvalFlow_router_1 = __importDefault(require("./routers/approvalFlow.router"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -68,10 +70,11 @@ class App {
         this.app.use(auth_middlewares_1.default.checkAuthentication);
         this.app.use("/api/department", department_router_1.default);
         this.app.use("/api/contract_attachment", contractAttachment_router_1.default);
-        this.app.use("/api/user-signature", userSignature_router_1.default);
+        this.app.use("/api/user_signature", userSignature_router_1.default);
         this.app.use("/api/user", user_router_1.default);
         this.app.use("/api/contract", contract_router_1.default);
-        // this.app.use("/api/type", TransTypeRouter);
+        this.app.use("/api/contract_signature", contractSignature_router_1.default);
+        this.app.use("/api/approval_flow", approvalFlow_router_1.default);
     }
     listen() {
         this.app.listen(this.appConfig.port, () => {

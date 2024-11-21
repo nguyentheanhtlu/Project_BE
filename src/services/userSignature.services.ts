@@ -26,9 +26,7 @@ class UserSignatureService {
     }
     static async listUserSignature () {
         const userSignature = await userSignatureRepo.find({
-             
                 relations: ["user"]
-            
         })
         return userSignature;
     }

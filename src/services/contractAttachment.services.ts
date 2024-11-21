@@ -22,7 +22,6 @@ class ContractAttachmentService {
     }
     static async updateContractAttachment(id , contract : Contract , fileName , filePath , fileType , uploadedBy: User , attachmentPurpose) {
         const contractAttachment = await contractAttachmentRepo.findOneBy({id : id})
-        contractAttachment.id = id
         contractAttachment.contract = contract
         contractAttachment.fileName = fileName
         contractAttachment.filePath = filePath

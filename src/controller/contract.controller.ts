@@ -7,22 +7,38 @@ import { Contract } from "../models/contract.entity";
 let approvalFlowRepo = dataSource.getRepository(ApprovalFlow)
 let contractSignatureRepo = dataSource.getRepository(ContractSignature)
 let contractRepo = dataSource.getRepository(Contract)
+let userRepo = dataSource.getRepository(User)
+
 class contractController {
     async createContract(req, res) {
-        try{
-        let id = req.body.id;
-        let contractNumber = req.body.contractNumber;
-        let customer = req.body.customer;
-        let contractType = req.body.contractType
-        let createdBy = req.user.id
-        let signersCount = req.body.signersCount
-        let status = req.body.status
-        let note = req.body.note
-        
-        let contract = await contractService.addContract(id, contractNumber, customer, contractType, createdBy, signersCount, status,note)
-        res.status(200).json(contract);
+        try {
+            let { id, contractNumber, customer, contractType, signersCount, status, note } = req.body;
+            let createdBy = req.user.id;
+
+            // Validate customer
+            const customerUser = await userRepo.findOne({
+                where: { id: customer, role: 'customer' }
+            });
+
+            if (!customerUser) {
+                return res.status(400).json({ 
+                    message: "Invalid customer ID. User must exist and have 'customer' role" 
+                });
+            }
+            
+            let contract = await contractService.addContract(
+                id, 
+                contractNumber, 
+                customer, 
+                contractType, 
+                createdBy, 
+                signersCount, 
+                status,
+                note
+            );
+            res.status(200).json(contract);
         }
-        catch(e){
+        catch(e) {
             res.status(404).json({ message: e.message });
         }
     }

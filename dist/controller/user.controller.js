@@ -146,6 +146,51 @@ class UserController extends base_controller_1.default {
             }
         });
     }
+    // ... existing code ...
+    searchUsers(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { keyword, // Tìm theo tên/số điện thoại
+                department, // Phòng ban
+                status, // Trạng thái
+                fromDate, // Từ ngày
+                toDate // Đến ngày
+                 } = req.query;
+                const queryBuilder = userRepo.createQueryBuilder('user');
+                if (keyword) {
+                    queryBuilder.andWhere('(user.fullName LIKE :keyword OR user.phoneNumber LIKE :keyword OR user.code LIKE :keyword)', { keyword: `%${keyword}%` });
+                }
+                if (department) {
+                    queryBuilder.andWhere('user.department = :department', { department });
+                }
+                if (status) {
+                    queryBuilder.andWhere('user.status = :status', { status });
+                }
+                if (fromDate) {
+                    queryBuilder.andWhere('user.createdAt >= :fromDate', {
+                        fromDate: new Date(fromDate)
+                    });
+                }
+                if (toDate) {
+                    queryBuilder.andWhere('user.createdAt <= :toDate', {
+                        toDate: new Date(toDate)
+                    });
+                }
+                queryBuilder.orderBy('user.createdAt', 'DESC');
+                const users = yield queryBuilder.getMany();
+                return res.status(200).json({
+                    success: true,
+                    data: users
+                });
+            }
+            catch (e) {
+                return res.status(500).json({
+                    success: false,
+                    message: e.message
+                });
+            }
+        });
+    }
 }
 exports.default = UserController;
 //# sourceMappingURL=user.controller.js.map

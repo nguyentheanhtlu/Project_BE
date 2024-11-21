@@ -7,17 +7,46 @@ let approvalFlowRepo = dataSource.getRepository(ApprovalFlow)
 
 class ApprovalFlowServices {
 
-    static async addApprovalFlow (id ,contract : Contract ,stepNumber ,approver : User ,action ,actionSource , approvalStatus , comments  ) {
-        const approvalFlow = new ApprovalFlow;
-        approvalFlow.id = id
-        approvalFlow.contract = contract
-        approvalFlow.stepNumber = stepNumber
-        approvalFlow.approver = approver
-        approvalFlow.action = action
-        approvalFlow.actionSource = actionSource
-        approvalFlow.approvalStatus = approvalStatus
-        approvalFlow.comments = comments
-        await approvalFlowRepo.save(approvalFlow)
+    static async findByContract(contract) {
+        const flows = await approvalFlowRepo.find({
+            where: {
+                contract: {
+                    id: contract.id
+                }
+            },
+            order: {
+                stepNumber: 'ASC'
+            }
+        });
+        
+        return flows;
+    }
+    
+    static async addApprovalFlow(id, contract, stepNumber, approver, action, actionSource, approvalStatus, comments) {
+        const existingFlowWithStep = await approvalFlowRepo.findOne({
+            where: {
+                contract: {
+                    id: contract.id
+                },
+                stepNumber: stepNumber
+            }
+        });
+    
+        if (existingFlowWithStep) {
+            throw new Error(`Approval flow with step number ${stepNumber} already exists for this contract`);
+        }
+    
+        const approvalFlow = new ApprovalFlow();
+        approvalFlow.id = id;
+        approvalFlow.contract = contract;
+        approvalFlow.stepNumber = stepNumber;
+        approvalFlow.approver = approver;
+        approvalFlow.action = action;
+        approvalFlow.actionSource = actionSource;
+        approvalFlow.approvalStatus = approvalStatus;
+        approvalFlow.comments = comments;
+    
+        await approvalFlowRepo.save(approvalFlow);
         return approvalFlow;
     }
 

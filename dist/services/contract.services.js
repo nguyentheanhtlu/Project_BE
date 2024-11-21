@@ -34,7 +34,6 @@ class contractService {
     static updateContract(id, contractNumber, customer, contractType, createdBy, signersCount, status, note) {
         return __awaiter(this, void 0, void 0, function* () {
             let contract = yield contractRepo.findOneBy({ id: id });
-            contract.id = id;
             contract.contractNumber = contractNumber;
             contract.customer = customer;
             contract.contractType = contractType;

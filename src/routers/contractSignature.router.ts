@@ -22,12 +22,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const ContractSignatureRouter: Router = express.Router();
-const UserSignatureController = new contractSignatureController();
+const ContractSignatureController = new contractSignatureController();
 
-ContractSignatureRouter.post("/add", upload.single("filePath"), UserSignatureController.addContractSignature);
-ContractSignatureRouter.post("/",  UserSignatureController.listContractSignature);
-ContractSignatureRouter.post("/detail",  UserSignatureController.getDetail);
-ContractSignatureRouter.post("/update",  UserSignatureController.updateContractSignature);
+ContractSignatureRouter.post("/add", upload.single("signatureImagePath"), ContractSignatureController.addContractSignature);
+ContractSignatureRouter.post("/",  ContractSignatureController.listContractSignature);
+ContractSignatureRouter.post("/detail",  ContractSignatureController.getDetail);
+ContractSignatureRouter.post("/update", upload.single("signatureImagePath"),  ContractSignatureController.updateContractSignature);
+ContractSignatureRouter.post("/find", ContractSignatureController.findByContract);
+
 
 
 export default ContractSignatureRouter;

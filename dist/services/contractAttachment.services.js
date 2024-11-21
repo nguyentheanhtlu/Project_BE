@@ -33,7 +33,6 @@ class ContractAttachmentService {
     static updateContractAttachment(id, contract, fileName, filePath, fileType, uploadedBy, attachmentPurpose) {
         return __awaiter(this, void 0, void 0, function* () {
             const contractAttachment = yield contractAttachmentRepo.findOneBy({ id: id });
-            contractAttachment.id = id;
             contractAttachment.contract = contract;
             contractAttachment.fileName = fileName;
             contractAttachment.filePath = filePath;

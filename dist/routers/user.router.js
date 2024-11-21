@@ -14,5 +14,6 @@ UserRouter.post("/addUsers", userController.createUser);
 UserRouter.post("/delete", userController.deleteUser);
 // UserRouter.get("/searchDepartment", userController.searchDepartment)
 UserRouter.get("/searchUser", userController.searchNameOrId);
+UserRouter.get("/search", userController.searchUsers);
 exports.default = UserRouter;
 //# sourceMappingURL=user.router.js.map

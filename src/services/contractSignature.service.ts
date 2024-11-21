@@ -13,6 +13,7 @@ class  ContractSignatureService {
         contractSignature.contract = contract
         contractSignature.signer = signer
         contractSignature.signedAt = signedAt
+        contractSignature.status = status
         contractSignature.signatureImagePath = signatureImagePath
         await contractSignatureRepo.save(contractSignature)
         return contractSignature;
@@ -20,9 +21,9 @@ class  ContractSignatureService {
 
     static async updateContractSignature(id, contract : Contract, signer : User , signedAt , status , signatureImagePath) {
         const contractSignature = await contractSignatureRepo.findOneBy({id : id})
-        contractSignature.id = id
         contractSignature.contract = contract
         contractSignature.signer = signer
+        contractSignature.status = status
         contractSignature.signedAt = signedAt
         contractSignature.signatureImagePath = signatureImagePath
         await contractSignatureRepo.save(contractSignature)
@@ -45,6 +46,18 @@ class  ContractSignatureService {
             }
         )
         return contractSignature;
+    }
+    static async findByContract(contractId) {
+        const contractSignatures = await contractSignatureRepo.find({
+            where: {
+                contract: {
+                    id: contractId
+                }
+            },
+            relations: ['contract', 'signer'] 
+        });
+        
+        return contractSignatures;
     }
 }
 

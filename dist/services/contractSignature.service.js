@@ -23,9 +23,52 @@ class ContractSignatureService {
             contractSignature.contract = contract;
             contractSignature.signer = signer;
             contractSignature.signedAt = signedAt;
+            contractSignature.status = status;
             contractSignature.signatureImagePath = signatureImagePath;
             yield contractSignatureRepo.save(contractSignature);
             return contractSignature;
+        });
+    }
+    static updateContractSignature(id, contract, signer, signedAt, status, signatureImagePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractSignature = yield contractSignatureRepo.findOneBy({ id: id });
+            contractSignature.contract = contract;
+            contractSignature.signer = signer;
+            contractSignature.status = status;
+            contractSignature.signedAt = signedAt;
+            contractSignature.signatureImagePath = signatureImagePath;
+            yield contractSignatureRepo.save(contractSignature);
+            return contractSignature;
+        });
+    }
+    static listContractSignature() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractSignature = yield contractSignatureRepo.find({
+                relations: ["contract", "signer"]
+            });
+            return contractSignature;
+        });
+    }
+    static detail(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractSignature = yield contractSignatureRepo.findOne({
+                relations: ["contract", "signer"],
+                where: { id: id }
+            });
+            return contractSignature;
+        });
+    }
+    static findByContract(contractId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contractSignatures = yield contractSignatureRepo.find({
+                where: {
+                    contract: {
+                        id: contractId
+                    }
+                },
+                relations: ['contract', 'signer']
+            });
+            return contractSignatures;
         });
     }
 }

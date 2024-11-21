@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const contractSignature_controller_1 = __importDefault(require("../controller/contractSignature.controller"));
 const uploadDir = path_1.default.join(__dirname, '../../uploads');
 if (!fs_1.default.existsSync(uploadDir)) {
     fs_1.default.mkdirSync(uploadDir, { recursive: true });
@@ -21,11 +22,12 @@ const storage = multer_1.default.diskStorage({
     }
 });
 const upload = (0, multer_1.default)({ storage: storage });
-const UserSignatureRouter = express_1.default.Router();
-const UserSignatureController = new tController();
-UserSignatureRouter.post("/add", upload.single("filePath"), tController.addt);
-UserSignatureRouter.post("/", tController.listt);
-UserSignatureRouter.post("/detail", tController.getDetails);
-UserSignatureRouter.post("/update", tController.updatet);
-exports.default = UserSignatureRouter;
+const ContractSignatureRouter = express_1.default.Router();
+const ContractSignatureController = new contractSignature_controller_1.default();
+ContractSignatureRouter.post("/add", upload.single("signatureImagePath"), ContractSignatureController.addContractSignature);
+ContractSignatureRouter.post("/", ContractSignatureController.listContractSignature);
+ContractSignatureRouter.post("/detail", ContractSignatureController.getDetail);
+ContractSignatureRouter.post("/update", upload.single("signatureImagePath"), ContractSignatureController.updateContractSignature);
+ContractSignatureRouter.post("/find", ContractSignatureController.findByContract);
+exports.default = ContractSignatureRouter;
 //# sourceMappingURL=contractSignature.router.js.map

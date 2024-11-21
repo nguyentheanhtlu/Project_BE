@@ -5,7 +5,7 @@ const ApprovalFlowRouter: Router = express.Router();
 
 const approvalFlowController = new ApprovalFlowController();
 
-ApprovalFlowRouter.post("/addContract", approvalFlowController.addApprovalFlow);
+ApprovalFlowRouter.post("/add", approvalFlowController.addApprovalFlow);
 ApprovalFlowRouter.post("/", approvalFlowController.listApprovalFlow);
 ApprovalFlowRouter.post("/detail", approvalFlowController.detailApprovalFlow);
 ApprovalFlowRouter.post("update" , approvalFlowController.updateApprovalFlow )

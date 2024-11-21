@@ -22,7 +22,6 @@ class contractService {
 
     static async updateContract (id : any, contractNumber : any,customer : any,contractType: any, createdBy : User,signersCount : any,status : any,note : any) {
         let contract = await contractRepo.findOneBy({id : id})
-        contract.id = id
         contract.contractNumber = contractNumber
         contract.customer = customer
         contract.contractType = contractType
