@@ -12,10 +12,6 @@ ContractRouter.post("/update", contractController.updateContract);
 ContractRouter.post("/success", contractController.successContract);
 ContractRouter.post("/bulk-delete", contractController.deleteMultipleContracts);
 ContractRouter.post("/rejected-contract", contractController.rejectMultipleContracts);
-
-
-
-
-
+ContractRouter.get("/search", contractController.searchContracts)
 
 export default ContractRouter;

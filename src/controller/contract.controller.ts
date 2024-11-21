@@ -142,6 +142,70 @@ class contractController {
             });
         }
     }
+    async searchContracts(req, res) {
+        try {
+            const { 
+                contractNumber, 
+                customerInfo,    // Thông tin khách hàng (tên hoặc số điện thoại)
+                creator,        // Người tạo
+                status,         // Trạng thái hợp đồng
+                fromDate,       // Từ ngày
+                toDate         // Đến ngày
+            } = req.query;
+    
+            const queryBuilder = contractRepo.createQueryBuilder('contract')
+                .leftJoinAndSelect('contract.customer', 'customer')
+                .leftJoinAndSelect('contract.createdBy', 'user');
+    
+            // Tìm theo số hợp đồng
+            if (contractNumber) {
+                queryBuilder.andWhere('contract.contractNumber LIKE :contractNumber', {
+                    contractNumber: `%${contractNumber}%`
+                });
+            }
+    
+            // Tìm theo thông tin khách hàng
+            if (customerInfo) {
+                queryBuilder.andWhere(
+                    '(customer.name LIKE :customerInfo OR customer.phone LIKE :customerInfo)', 
+                    { customerInfo: `%${customerInfo}%` }
+                );
+            }
+    
+            // Tìm theo người tạo
+            if (creator) {
+                queryBuilder.andWhere('user.name LIKE :creator', {
+                    creator: `%${creator}%`
+                });
+            }
+    
+            // Tìm theo trạng thái
+            if (status) {
+                queryBuilder.andWhere('contract.status = :status', { status });
+            }
+    
+            // Tìm theo khoảng thời gian
+            if (fromDate) {
+                queryBuilder.andWhere('contract.createdAt >= :fromDate', {
+                    fromDate: new Date(fromDate)
+                });
+            }
+    
+            if (toDate) {
+                queryBuilder.andWhere('contract.createdAt <= :toDate', {
+                    toDate: new Date(toDate)
+                });
+            }
+    
+            const contracts = await queryBuilder.getMany();
+    
+            return res.status(200).json(contracts);
+        } catch (e) {
+            return res.status(500).json({
+                message: e.message
+            });
+        }
+    }
 
 
 }
