@@ -222,6 +222,36 @@ class contractController {
             });
         }
     }
+    async countContractsByStatus(req, res) {
+        try {
+            const counts = await contractRepo
+                .createQueryBuilder('contract')
+                .select('contract.status', 'status')
+                .addSelect('COUNT(contract.id)', 'count')
+                .groupBy('contract.status')
+                .getRawMany();
+    
+            const result = {
+                new: 0,
+                pending: 0,
+                signed: 0,
+                rejected: 0
+            };
+    
+            counts.forEach(item => {
+                result[item.status] = parseInt(item.count);
+            });
+    
+            return res.status(200).json({
+                total: Object.values(result).reduce((a, b) => a + b, 0),
+                statusCounts: result
+            });
+        } catch (e) {
+            return res.status(500).json({
+                message: e.message
+            });
+        }
+    }
 
 
 }

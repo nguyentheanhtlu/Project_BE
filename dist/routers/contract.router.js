@@ -15,5 +15,6 @@ ContractRouter.post("/success", contractController.successContract);
 ContractRouter.post("/bulk-delete", contractController.deleteMultipleContracts);
 ContractRouter.post("/rejected-contract", contractController.rejectMultipleContracts);
 ContractRouter.get("/search", contractController.searchContracts);
+ContractRouter.post("/count", contractController.countContractsByStatus);
 exports.default = ContractRouter;
 //# sourceMappingURL=contract.router.js.map

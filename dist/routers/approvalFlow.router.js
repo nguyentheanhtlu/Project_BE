@@ -10,6 +10,6 @@ const approvalFlowController = new approvalFlow_controller_1.default();
 ApprovalFlowRouter.post("/add", approvalFlowController.addApprovalFlow);
 ApprovalFlowRouter.post("/", approvalFlowController.listApprovalFlow);
 ApprovalFlowRouter.post("/detail", approvalFlowController.detailApprovalFlow);
-ApprovalFlowRouter.post("update", approvalFlowController.updateApprovalFlow);
+ApprovalFlowRouter.post("/update", approvalFlowController.updateApprovalFlow);
 exports.default = ApprovalFlowRouter;
 //# sourceMappingURL=approvalFlow.router.js.map
